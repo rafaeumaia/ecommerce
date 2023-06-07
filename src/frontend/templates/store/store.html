@@ -1,0 +1,36 @@
+{% extends 'store/main.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% block content%}
+    <div class="row">
+        {% for product in object_list %}
+        <div class="col-lg-4">
+            {% if product.image %}
+            <img class="thumbnail" src="{{ product.image.url }}">
+            {% else %}
+            <img class="thumbnail" src="{% static 'img/placeholder.png' %}">
+            {% endif %}
+            <div class="box-element product">
+                <h6><strong>{{product.name}}</strong></h6>
+                <hr>
+                <button class="btn btn-outline-secondary add-btn">Add to Cart</button>
+                <a class="btn btn-outline-success" href="#">View</a>
+                <h4 style="display: inline-block;float: right">${{product.price|floatformat:2}}</h4>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+
+</body>
+</html>
