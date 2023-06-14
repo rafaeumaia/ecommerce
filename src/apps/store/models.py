@@ -31,13 +31,22 @@ class Order(models.Model):
         return str(self.id)
 
     @property
-    def get_cart_total(self):
+    def shipping(self):
+        shipping = False
         orderitems = self.orderitem_set.all()
-        total = sum([item.get_total for item in orderitems])
+        for i in orderitems:
+            if i.product.digital == False:
+                shipping = True
+        return shipping
+
+    @property
+    def cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.total for item in orderitems])
         return total
 
     @property
-    def get_cart_items(self):
+    def cart_items(self):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems])
         return total
@@ -50,7 +59,7 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True, verbose_name='Date Added')
 
     @property
-    def get_total(self):
+    def total(self):
         total = self.product.price * self.quantity
         return total
 
